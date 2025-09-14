@@ -1,0 +1,117 @@
+.doctor-dashboard {
+  padding: 2rem;
+  background: #f8f9fa;
+  min-height: 100vh;
+  direction: rtl;
+}
+
+.dashboard-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 0.5rem 0;
+}
+
+.dashboard-header p {
+  color: #6c757d;
+  font-size: 1.1rem;
+  margin: 0 0 2rem 0;
+}
+
+.appointments-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.appointments-section h2 {
+  margin: 0 0 1.5rem 0;
+  color: #2c3e50;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.appointments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.appointment-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.appointment-card:hover {
+  background: #f8f9fa;
+  border-color: #667eea;
+}
+
+.appointment-time {
+  background: #667eea;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 80px;
+}
+
+.time {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.appointment-details {
+  flex: 1;
+}
+
+.appointment-details h3 {
+  margin: 0 0 0.25rem 0;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.appointment-details p {
+  margin: 0 0 0.5rem 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status.مؤكد {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status.في\ الانتظار {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.btn-primary {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #5a6fd8;
+  transform: translateY(-2px);
+}

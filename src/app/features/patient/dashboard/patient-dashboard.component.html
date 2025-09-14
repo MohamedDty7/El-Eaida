@@ -1,0 +1,37 @@
+<div class="patient-dashboard">
+  <div class="dashboard-header">
+    <h1>مرحباً {{ currentUser?.firstName }} 👋</h1>
+    <p>إليك معلوماتك الطبية</p>
+  </div>
+
+  <div class="content-grid">
+    <!-- My Appointments -->
+    <div class="appointments-section">
+      <h2>مواعيدي</h2>
+      <div class="appointments-list">
+        <div class="appointment-card" *ngFor="let appointment of myAppointments">
+          <div class="appointment-info">
+            <h3>{{ appointment.doctorName }}</h3>
+            <p>{{ appointment.date }} - {{ appointment.time }}</p>
+            <span class="status" [class]="appointment.status">{{ appointment.status }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Medications -->
+    <div class="medications-section">
+      <h2>أدويتي</h2>
+      <div class="medications-list">
+        <div class="medication-card" *ngFor="let medication of myMedications">
+          <div class="medication-info">
+            <h3>{{ medication.name }}</h3>
+            <p>الجرعة: {{ medication.dosage }}</p>
+            <p>التكرار: {{ medication.frequency }}</p>
+            <p>المدة: {{ medication.duration }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,171 @@
+<div class="add-appointment-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <button class="btn-back" (click)="onCancel()">
+        <i class="fas fa-arrow-right"></i>
+        العودة
+      </button>
+      <div class="header-text">
+        <h1>إضافة موعد جديد</h1>
+        <p>حجز موعد طبي جديد</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Container -->
+  <div class="form-container">
+    <form (ngSubmit)="onSubmit()" #appointmentForm="ngForm">
+      <div class="form-sections">
+        <!-- Patient Information -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3>معلومات المريض</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="patientName">اسم المريض *</label>
+              <input 
+                type="text" 
+                id="patientName" 
+                name="patientName" 
+                [(ngModel)]="appointment.patientName" 
+                required
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="patientPhone">رقم الهاتف *</label>
+              <input 
+                type="tel" 
+                id="patientPhone" 
+                name="patientPhone" 
+                [(ngModel)]="appointment.patientPhone" 
+                required
+                class="form-control">
+            </div>
+            
+            <div class="form-group full-width">
+              <label>أو اختر من المرضى المسجلين</label>
+              <div class="patients-list">
+                <div *ngFor="let patient of patients" 
+                     class="patient-item"
+                     (click)="onPatientSelect(patient)">
+                  <div class="patient-info">
+                    <span class="patient-name">{{ patient.name }}</span>
+                    <span class="patient-phone">{{ patient.phone }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Appointment Details -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3>تفاصيل الموعد</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="date">التاريخ *</label>
+              <input 
+                type="date" 
+                id="date" 
+                name="date" 
+                [(ngModel)]="appointment.date" 
+                required
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="time">الوقت *</label>
+              <input 
+                type="time" 
+                id="time" 
+                name="time" 
+                [(ngModel)]="appointment.time" 
+                required
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="type">نوع الموعد *</label>
+              <select 
+                id="type" 
+                name="type" 
+                [(ngModel)]="appointment.type" 
+                required
+                class="form-control">
+                <option value="">اختر نوع الموعد</option>
+                <option *ngFor="let type of appointmentTypes" [value]="type.value">
+                  {{ type.label }}
+                </option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="duration">المدة</label>
+              <select 
+                id="duration" 
+                name="duration" 
+                [(ngModel)]="appointment.duration"
+                class="form-control">
+                <option *ngFor="let duration of durations" [value]="duration.value">
+                  {{ duration.label }}
+                </option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="priority">الأولوية</label>
+              <select 
+                id="priority" 
+                name="priority" 
+                [(ngModel)]="appointment.priority"
+                class="form-control">
+                <option *ngFor="let priority of priorities" [value]="priority.value">
+                  {{ priority.label }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Information -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3>معلومات إضافية</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="notes">ملاحظات</label>
+              <textarea 
+                id="notes" 
+                name="notes" 
+                [(ngModel)]="appointment.notes" 
+                rows="4"
+                placeholder="أدخل أي ملاحظات أو تعليمات خاصة..."
+                class="form-control"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="onCancel()">
+          إلغاء
+        </button>
+        <button 
+          type="submit" 
+          class="btn-primary" 
+          [disabled]="!validateForm() || isSubmitting">
+          <i class="fas fa-calendar-plus" *ngIf="!isSubmitting"></i>
+          <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
+          {{ isSubmitting ? 'جاري الحفظ...' : 'حجز الموعد' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

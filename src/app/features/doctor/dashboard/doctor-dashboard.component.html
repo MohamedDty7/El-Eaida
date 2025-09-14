@@ -1,0 +1,25 @@
+<div class="doctor-dashboard">
+  <div class="dashboard-header">
+    <h1>مرحباً د. {{ currentUser?.firstName }} 👨‍⚕️</h1>
+    <p>مواعيدك اليوم</p>
+  </div>
+
+  <div class="appointments-section">
+    <h2>مواعيد اليوم</h2>
+    <div class="appointments-list">
+      <div class="appointment-card" *ngFor="let appointment of todayAppointments">
+        <div class="appointment-time">
+          <div class="time">{{ appointment.time }}</div>
+        </div>
+        <div class="appointment-details">
+          <h3>{{ appointment.patientName }}</h3>
+          <p>{{ appointment.type }}</p>
+          <span class="status" [class]="appointment.status">{{ appointment.status }}</span>
+        </div>
+        <div class="appointment-actions">
+          <button class="btn-primary">بدء الفحص</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

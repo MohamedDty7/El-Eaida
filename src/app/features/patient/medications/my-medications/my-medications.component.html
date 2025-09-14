@@ -1,0 +1,178 @@
+<div class="my-medications-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1>أدويتي</h1>
+      <p>عرض وإدارة جميع أدويتك الموصوفة</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-primary">
+        <i class="fas fa-prescription-bottle-alt"></i>
+        طلب دواء جديد
+      </button>
+    </div>
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="stats-section">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-pills"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ getActiveMedicationsCount() }}</h3>
+        <p>أدوية نشطة</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ getCompletedMedicationsCount() }}</h3>
+        <p>أدوية مكتملة</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ getUpcomingMedications().length }}</h3>
+        <p>أدوية قاربت على الانتهاء</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters and Search -->
+  <div class="filters-section">
+    <div class="search-container">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input 
+          type="text" 
+          placeholder="البحث بالدواء، الطبيب، أو التعليمات..." 
+          [(ngModel)]="searchQuery"
+          (input)="onSearchChange()"
+          class="search-input">
+      </div>
+    </div>
+    
+    <div class="filters-row">
+      <div class="filter-container">
+        <select 
+          [(ngModel)]="selectedStatus" 
+          (change)="onStatusChange()"
+          class="filter-select">
+          <option value="all">جميع الحالات</option>
+          <option value="نشط">نشط</option>
+          <option value="مكتمل">مكتمل</option>
+          <option value="متوقف">متوقف</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Medications List -->
+  <div class="medications-container">
+    <div class="list-header">
+      <h3>قائمة الأدوية ({{ filteredMedications.length }})</h3>
+    </div>
+    
+    <div class="medications-list">
+      <div *ngFor="let medication of filteredMedications" class="medication-card">
+        <div class="card-header">
+          <div class="medication-name">
+            <h4>{{ medication.name }}</h4>
+            <span class="medication-dosage">{{ medication.dosage }}</span>
+          </div>
+          <div class="medication-status">
+            <span class="status-badge" [class]="getStatusClass(medication.status)">
+              {{ medication.status }}
+            </span>
+          </div>
+        </div>
+        
+        <div class="card-body">
+          <div class="medication-info">
+            <div class="info-row">
+              <span class="label">الطبيب:</span>
+              <span class="value">{{ medication.prescribedBy }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">التكرار:</span>
+              <span class="value">{{ medication.frequency }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">المدة:</span>
+              <span class="value">{{ medication.duration }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">تاريخ الوصفة:</span>
+              <span class="value">{{ medication.prescribedDate }}</span>
+            </div>
+          </div>
+          
+          <div class="medication-instructions">
+            <h5>التعليمات:</h5>
+            <p>{{ medication.instructions }}</p>
+          </div>
+          
+          <div class="medication-side-effects" *ngIf="medication.sideEffects">
+            <h5>الآثار الجانبية:</h5>
+            <p>{{ medication.sideEffects }}</p>
+          </div>
+          
+          <div class="medication-progress" *ngIf="medication.status === 'نشط'">
+            <div class="progress-info">
+              <span>الأيام المتبقية: {{ getRemainingDays(medication) }} يوم</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="getProgressPercentage(medication)"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card-footer">
+          <div class="medication-actions">
+            <button 
+              *ngIf="medication.status === 'نشط'"
+              class="btn-warning"
+              (click)="stopMedication(medication)">
+              <i class="fas fa-pause"></i>
+              إيقاف
+            </button>
+            
+            <button 
+              *ngIf="medication.status === 'متوقف'"
+              class="btn-success"
+              (click)="restartMedication(medication)">
+              <i class="fas fa-play"></i>
+              استئناف
+            </button>
+            
+            <button class="btn-icon" title="عرض التفاصيل">
+              <i class="fas fa-eye"></i>
+            </button>
+            
+            <button class="btn-icon" title="طباعة">
+              <i class="fas fa-print"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="filteredMedications.length === 0">
+    <div class="empty-icon">
+      <i class="fas fa-pills"></i>
+    </div>
+    <h3>لا توجد أدوية</h3>
+    <p>لم يتم العثور على أدوية تطابق معايير البحث</p>
+    <button class="btn-primary">طلب دواء جديد</button>
+  </div>
+</div>

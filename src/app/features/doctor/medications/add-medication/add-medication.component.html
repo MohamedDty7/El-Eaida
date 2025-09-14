@@ -1,0 +1,256 @@
+<div class="add-medication-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <button class="btn-back" (click)="onCancel()">
+        <i class="fas fa-arrow-right"></i>
+        العودة
+      </button>
+      <div class="header-text">
+        <h1>إضافة دواء جديد</h1>
+        <p>إضافة دواء جديد إلى قائمة الأدوية</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Container -->
+  <div class="form-container">
+    <form (ngSubmit)="onSubmit()" #medicationForm="ngForm">
+      <div class="form-sections">
+        <!-- Basic Information -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3>المعلومات الأساسية</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="name">اسم الدواء *</label>
+              <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                [(ngModel)]="medication.name" 
+                required
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="genericName">الاسم العلمي *</label>
+              <input 
+                type="text" 
+                id="genericName" 
+                name="genericName" 
+                [(ngModel)]="medication.genericName" 
+                required
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="category">الفئة *</label>
+              <select 
+                id="category" 
+                name="category" 
+                [(ngModel)]="medication.category" 
+                required
+                class="form-control">
+                <option value="">اختر الفئة</option>
+                <option *ngFor="let category of categories" [value]="category">
+                  {{ category }}
+                </option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="dosage">الجرعة *</label>
+              <input 
+                type="text" 
+                id="dosage" 
+                name="dosage" 
+                [(ngModel)]="medication.dosage" 
+                required
+                placeholder="مثال: 500mg"
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="form">الشكل *</label>
+              <select 
+                id="form" 
+                name="form" 
+                [(ngModel)]="medication.form" 
+                required
+                class="form-control">
+                <option value="">اختر الشكل</option>
+                <option *ngFor="let form of forms" [value]="form">
+                  {{ form }}
+                </option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="manufacturer">الشركة المصنعة *</label>
+              <input 
+                type="text" 
+                id="manufacturer" 
+                name="manufacturer" 
+                [(ngModel)]="medication.manufacturer" 
+                required
+                class="form-control">
+            </div>
+          </div>
+        </div>
+
+        <!-- Stock and Pricing -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3>المخزون والتسعير</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="stock">الكمية المتاحة</label>
+              <input 
+                type="number" 
+                id="stock" 
+                name="stock" 
+                [(ngModel)]="medication.stock"
+                min="0"
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="minStock">الحد الأدنى للمخزون</label>
+              <input 
+                type="number" 
+                id="minStock" 
+                name="minStock" 
+                [(ngModel)]="medication.minStock"
+                min="0"
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="price">السعر (ريال)</label>
+              <input 
+                type="number" 
+                id="price" 
+                name="price" 
+                [(ngModel)]="medication.price"
+                min="0"
+                step="0.01"
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="expiryDate">تاريخ الانتهاء</label>
+              <input 
+                type="date" 
+                id="expiryDate" 
+                name="expiryDate" 
+                [(ngModel)]="medication.expiryDate"
+                class="form-control">
+            </div>
+          </div>
+        </div>
+
+        <!-- Medical Information -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3>المعلومات الطبية</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="description">الوصف</label>
+              <textarea 
+                id="description" 
+                name="description" 
+                [(ngModel)]="medication.description" 
+                rows="3"
+                placeholder="وصف مختصر للدواء..."
+                class="form-control"></textarea>
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="sideEffects">الآثار الجانبية</label>
+              <textarea 
+                id="sideEffects" 
+                name="sideEffects" 
+                [(ngModel)]="medication.sideEffects" 
+                rows="3"
+                placeholder="الآثار الجانبية المحتملة..."
+                class="form-control"></textarea>
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="contraindications">موانع الاستخدام</label>
+              <textarea 
+                id="contraindications" 
+                name="contraindications" 
+                [(ngModel)]="medication.contraindications" 
+                rows="3"
+                placeholder="الحالات التي يمنع فيها استخدام الدواء..."
+                class="form-control"></textarea>
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="interactions">التفاعلات الدوائية</label>
+              <textarea 
+                id="interactions" 
+                name="interactions" 
+                [(ngModel)]="medication.interactions" 
+                rows="3"
+                placeholder="الأدوية التي تتفاعل مع هذا الدواء..."
+                class="form-control"></textarea>
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="storageConditions">شروط التخزين</label>
+              <textarea 
+                id="storageConditions" 
+                name="storageConditions" 
+                [(ngModel)]="medication.storageConditions" 
+                rows="2"
+                placeholder="شروط التخزين المطلوبة..."
+                class="form-control"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Settings -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3>إعدادات إضافية</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <div class="checkbox-group">
+                <div class="checkbox-item">
+                  <input 
+                    type="checkbox" 
+                    id="prescriptionRequired"
+                    name="prescriptionRequired"
+                    [(ngModel)]="medication.prescriptionRequired">
+                  <label for="prescriptionRequired">يتطلب وصفة طبية</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="onCancel()">
+          إلغاء
+        </button>
+        <button 
+          type="submit" 
+          class="btn-primary" 
+          [disabled]="!validateForm() || isSubmitting">
+          <i class="fas fa-save" *ngIf="!isSubmitting"></i>
+          <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
+          {{ isSubmitting ? 'جاري الحفظ...' : 'حفظ الدواء' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

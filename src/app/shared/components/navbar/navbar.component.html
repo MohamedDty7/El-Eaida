@@ -1,0 +1,32 @@
+<nav class="navbar">
+  <div class="navbar-content">
+    <div class="navbar-left">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="البحث..." [(ngModel)]="searchQuery">
+      </div>
+    </div>
+    
+    <div class="navbar-center">
+      <div class="datetime">
+        <div class="time">{{ getCurrentTime() }}</div>
+        <div class="date">{{ getCurrentDate() }}</div>
+      </div>
+    </div>
+    
+    <div class="navbar-right">
+      <button class="btn-icon" title="الإشعارات">
+        <i class="fas fa-bell"></i>
+        <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+      </button>
+      
+      <div class="profile">
+        <img src="https://via.placeholder.com/40x40/007bff/ffffff?text=أ" alt="Profile">
+        <div class="profile-info" *ngIf="!isCollapsed">
+          <div class="name">أحمد محمد</div>
+          <div class="role">طبيب</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

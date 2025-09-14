@@ -1,0 +1,37 @@
+.patient-layout-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  direction: rtl;
+  background-color: #f5f7fa;
+}
+
+.patient-main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  transition: margin-right 0.3s ease-in-out;
+  margin-right: 250px; /* Initial margin for expanded sidebar */
+}
+
+.patient-layout-container.sidebar-collapsed .patient-main-content {
+  margin-right: 80px; /* Margin for collapsed sidebar */
+}
+
+.patient-page-content {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #f5f7fa;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .patient-layout-container {
+    flex-direction: column;
+  }
+
+  .patient-main-content {
+    margin-right: 0 !important; /* No margin on small screens */
+  }
+}

@@ -1,0 +1,247 @@
+.patient-sidebar {
+  width: 250px;
+  min-width: 250px;
+  height: 100vh;
+  background: linear-gradient(to bottom, #EC4899, #DB2777); /* Patient Pink */
+  color: white;
+  padding: 20px 15px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.patient-sidebar.collapsed {
+  width: 80px;
+  min-width: 80px;
+  padding: 20px 10px;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.logo-container i {
+  font-size: 2rem;
+  color: #F9A8D4;
+}
+
+.toggle-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #F9A8D4;
+}
+
+.user-details {
+  flex: 1;
+}
+
+.user-name {
+  display: block;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 5px;
+  color: white;
+}
+
+.user-role {
+  display: block;
+  font-size: 0.85rem;
+  color: #F9A8D4;
+  opacity: 0.9;
+}
+
+.sidebar-nav {
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-nav li {
+  margin-bottom: 5px;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  position: relative;
+}
+
+.sidebar-nav a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  transform: translateX(-3px);
+}
+
+.sidebar-nav a.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-weight: 600;
+}
+
+.sidebar-nav a.active::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  background: #F9A8D4;
+  border-radius: 0 3px 3px 0;
+}
+
+.sidebar-nav i {
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
+}
+
+.dropdown {
+  margin-bottom: 5px;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+  position: relative;
+}
+
+.dropdown-icon {
+  margin-right: auto;
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.dropdown-toggle[aria-expanded="true"] .dropdown-icon {
+  transform: rotate(180deg);
+}
+
+.dropdown .collapse {
+  margin-top: 5px;
+  margin-right: 20px;
+}
+
+.dropdown .collapse ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown .collapse li {
+  margin-bottom: 3px;
+}
+
+.dropdown .collapse a {
+  padding: 8px 15px 8px 35px;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+}
+
+.dropdown .collapse a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(-2px);
+}
+
+.dropdown .collapse a.active {
+  background: rgba(255, 255, 255, 0.15);
+  color: #F9A8D4;
+}
+
+.sidebar-footer {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+}
+
+.sidebar-footer p {
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .patient-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .patient-sidebar.show {
+    transform: translateX(0);
+  }
+
+  .patient-sidebar.collapsed {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .user-details {
+    display: block;
+  }
+}

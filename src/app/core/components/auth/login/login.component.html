@@ -1,0 +1,83 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="logo">
+        <i class="fas fa-hospital-alt"></i>
+        <h1>عيادة النور</h1>
+      </div>
+      <p class="subtitle">نظام إدارة العيادة الشامل</p>
+    </div>
+
+    <form class="login-form" (ngSubmit)="onLogin()">
+      <div class="form-group">
+        <label for="username">اسم المستخدم</label>
+        <div class="input-group">
+          <i class="fas fa-user input-icon"></i>
+          <input 
+            type="text" 
+            id="username"
+            [(ngModel)]="username" 
+            name="username"
+            placeholder="أدخل اسم المستخدم"
+            class="form-input"
+            [disabled]="isLoading">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">كلمة المرور</label>
+        <div class="input-group">
+          <i class="fas fa-lock input-icon"></i>
+          <input 
+            type="password" 
+            id="password"
+            [(ngModel)]="password" 
+            name="password"
+            placeholder="أدخل كلمة المرور"
+            class="form-input"
+            [disabled]="isLoading">
+        </div>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        <i class="fas fa-exclamation-circle"></i>
+        {{ errorMessage }}
+      </div>
+
+      <button 
+        type="submit" 
+        class="login-btn"
+        [disabled]="isLoading">
+        <i class="fas fa-sign-in-alt" *ngIf="!isLoading"></i>
+        <i class="fas fa-spinner fa-spin" *ngIf="isLoading"></i>
+        {{ isLoading ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول' }}
+      </button>
+    </form>
+
+    <div class="demo-login">
+      <h3>تسجيل دخول تجريبي</h3>
+      <div class="demo-buttons">
+        <button class="demo-btn admin" (click)="onDemoLogin('admin')">
+          <i class="fas fa-user-shield"></i>
+          <span>مدير النظام</span>
+        </button>
+        <button class="demo-btn doctor" (click)="onDemoLogin('doctor')">
+          <i class="fas fa-user-md"></i>
+          <span>طبيب</span>
+        </button>
+        <button class="demo-btn receptionist" (click)="onDemoLogin('receptionist')">
+          <i class="fas fa-user-tie"></i>
+          <span>موظف استقبال</span>
+        </button>
+        <button class="demo-btn patient" (click)="onDemoLogin('patient')">
+          <i class="fas fa-user"></i>
+          <span>مريض</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="login-footer">
+      <p>&copy; 2024 عيادة النور. جميع الحقوق محفوظة.</p>
+    </div>
+  </div>
+</div>

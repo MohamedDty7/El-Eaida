@@ -1,0 +1,210 @@
+<div class="add-doctor-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <button class="btn-back" (click)="onCancel()">
+        <i class="fas fa-arrow-right"></i>
+        العودة
+      </button>
+      <div class="header-text">
+        <h1>إضافة طبيب جديد</h1>
+        <p>أدخل معلومات الطبيب الجديد</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Container -->
+  <div class="form-container">
+    <form (ngSubmit)="onSubmit()" #doctorForm="ngForm">
+      <div class="form-sections">
+        <!-- Personal Information -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3>المعلومات الشخصية</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="name">الاسم الكامل *</label>
+              <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                [(ngModel)]="doctor.name" 
+                required
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="email">البريد الإلكتروني *</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                [(ngModel)]="doctor.email" 
+                required
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="phone">رقم الهاتف *</label>
+              <input 
+                type="tel" 
+                id="phone" 
+                name="phone" 
+                [(ngModel)]="doctor.phone" 
+                required
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="licenseNumber">رقم الترخيص *</label>
+              <input 
+                type="text" 
+                id="licenseNumber" 
+                name="licenseNumber" 
+                [(ngModel)]="doctor.licenseNumber" 
+                required
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="specialty">التخصص *</label>
+              <select 
+                id="specialty" 
+                name="specialty" 
+                [(ngModel)]="doctor.specialty" 
+                required
+                class="form-control">
+                <option value="">اختر التخصص</option>
+                <option *ngFor="let specialty of specialties" [value]="specialty">
+                  {{ specialty }}
+                </option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="experience">سنوات الخبرة *</label>
+              <input 
+                type="number" 
+                id="experience" 
+                name="experience" 
+                [(ngModel)]="doctor.experience" 
+                required
+                min="0" 
+                max="50"
+                class="form-control">
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="address">العنوان</label>
+              <textarea 
+                id="address" 
+                name="address" 
+                [(ngModel)]="doctor.address" 
+                rows="3"
+                class="form-control"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Schedule Information -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3>جدول العمل</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="startTime">وقت البداية</label>
+              <input 
+                type="time" 
+                id="startTime" 
+                name="startTime" 
+                [(ngModel)]="doctor.schedule.startTime"
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="endTime">وقت النهاية</label>
+              <input 
+                type="time" 
+                id="endTime" 
+                name="endTime" 
+                [(ngModel)]="doctor.schedule.endTime"
+                class="form-control">
+            </div>
+            
+            <div class="form-group full-width">
+              <label>أيام العمل</label>
+              <div class="working-days">
+                <div *ngFor="let day of workingDays" class="day-checkbox">
+                  <input 
+                    type="checkbox" 
+                    [id]="day.value"
+                    [checked]="day.checked"
+                    (change)="onWorkingDayChange(day)">
+                  <label [for]="day.value">{{ day.name }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Professional Information -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3>المعلومات المهنية</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="education">التعليم والشهادات</label>
+              <textarea 
+                id="education" 
+                name="education" 
+                [(ngModel)]="doctor.education" 
+                rows="4"
+                placeholder="أدخل تفاصيل التعليم والشهادات..."
+                class="form-control"></textarea>
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="certifications">الشهادات المهنية</label>
+              <textarea 
+                id="certifications" 
+                name="certifications" 
+                [(ngModel)]="doctor.certifications" 
+                rows="3"
+                placeholder="أدخل الشهادات المهنية..."
+                class="form-control"></textarea>
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="notes">ملاحظات إضافية</label>
+              <textarea 
+                id="notes" 
+                name="notes" 
+                [(ngModel)]="doctor.notes" 
+                rows="3"
+                placeholder="أي ملاحظات إضافية..."
+                class="form-control"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="onCancel()">
+          إلغاء
+        </button>
+        <button 
+          type="submit" 
+          class="btn-primary" 
+          [disabled]="!validateForm() || isSubmitting">
+          <i class="fas fa-save" *ngIf="!isSubmitting"></i>
+          <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
+          {{ isSubmitting ? 'جاري الحفظ...' : 'حفظ الطبيب' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

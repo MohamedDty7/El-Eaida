@@ -1,0 +1,19 @@
+<div class="doctor-layout">
+  <app-doctor-sidebar 
+    [isCollapsed]="sidebarCollapsed"
+    [menuItems]="menuItems"
+    [currentUser]="currentUser"
+    (toggleSidebar)="toggleSidebar()">
+  </app-doctor-sidebar>
+  
+  <div class="main-content" [class.sidebar-collapsed]="sidebarCollapsed">
+    <app-doctor-navbar 
+      [currentUser]="currentUser"
+      [isCollapsed]="sidebarCollapsed">
+    </app-doctor-navbar>
+    
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

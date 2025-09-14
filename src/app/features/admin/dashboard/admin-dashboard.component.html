@@ -1,0 +1,76 @@
+<div class="admin-dashboard">
+  <div class="dashboard-header">
+    <h1>مرحباً {{ currentUser?.firstName }} 👋</h1>
+    <p>إليك نظرة عامة على أداء العيادة اليوم</p>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card" *ngFor="let stat of stats" [class]="'stat-' + stat.color">
+      <div class="stat-icon">
+        <i [class]="stat.icon"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ stat.value }}</h3>
+        <p>{{ stat.title }}</p>
+        <span class="stat-change" [class]="stat.changeType">{{ stat.change }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="content-grid">
+    <!-- Recent Activities -->
+    <div class="activities-section">
+      <div class="section-header">
+        <h2>الأنشطة الأخيرة</h2>
+        <a href="#" class="view-all">عرض الكل</a>
+      </div>
+      <div class="activities-list">
+        <div class="activity-item" *ngFor="let activity of recentActivities">
+          <div class="activity-icon">
+            <i [class]="activity.icon"></i>
+          </div>
+          <div class="activity-content">
+            <h4>{{ activity.title }}</h4>
+            <p>{{ activity.description }}</p>
+            <span class="activity-time">{{ activity.time }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions-section">
+      <div class="section-header">
+        <h2>الإجراءات السريعة</h2>
+      </div>
+      <div class="actions-grid">
+        <a href="/admin/patients/add" class="action-card">
+          <i class="fas fa-user-plus"></i>
+          <span>إضافة مريض</span>
+        </a>
+        <a href="/appointments/add" class="action-card">
+          <i class="fas fa-calendar-plus"></i>
+          <span>حجز موعد</span>
+        </a>
+        <a href="/admin/doctors/add" class="action-card">
+          <i class="fas fa-user-md"></i>
+          <span>إضافة طبيب</span>
+        </a>
+        <a href="/reports" class="action-card">
+          <i class="fas fa-chart-bar"></i>
+          <span>التقارير</span>
+        </a>
+        <a href="/admin/settings" class="action-card">
+          <i class="fas fa-cog"></i>
+          <span>الإعدادات</span>
+        </a>
+        <a href="/medications/add" class="action-card">
+          <i class="fas fa-pills"></i>
+          <span>إضافة دواء</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

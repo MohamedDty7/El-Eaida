@@ -1,0 +1,19 @@
+<div class="app-container">
+  <app-sidebar 
+    [isCollapsed]="sidebarCollapsed"
+    [menuItems]="menuItems"
+    [currentUser]="currentUser"
+    (toggleSidebar)="toggleSidebar()">
+  </app-sidebar>
+  
+  <div class="main-content" [class.sidebar-collapsed]="sidebarCollapsed">
+    <app-navbar 
+      [currentUser]="currentUser"
+      [isCollapsed]="sidebarCollapsed">
+    </app-navbar>
+    
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

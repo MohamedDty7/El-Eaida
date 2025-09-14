@@ -1,0 +1,55 @@
+<aside class="receptionist-sidebar" [class.collapsed]="isCollapsed">
+  <div class="sidebar-header">
+    <div class="logo-container">
+      <i class="fas fa-user-tie"></i>
+      <span *ngIf="!isCollapsed">العيادة</span>
+    </div>
+    <button class="toggle-btn" (click)="onToggleSidebar()">
+      <i class="fas" [class.fa-chevron-right]="!isCollapsed" [class.fa-chevron-left]="isCollapsed"></i>
+    </button>
+  </div>
+
+  <div class="user-info" *ngIf="currentUser">
+    <div class="user-avatar">
+      <i class="fas fa-user-circle"></i>
+    </div>
+    <div class="user-details" *ngIf="!isCollapsed">
+      <span class="user-name">{{ currentUser.username }}</span>
+      <span class="user-role">{{ getRoleLabel(currentUser.role) }}</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <ul>
+      <li *ngFor="let item of menuItems">
+        <ng-container *ngIf="!hasChildren(item); else hasChildrenTemplate">
+          <a [routerLink]="item.routerLink" routerLinkActive="active">
+            <i class="{{ item.icon }}"></i>
+            <span *ngIf="!isCollapsed">{{ item.label }}</span>
+          </a>
+        </ng-container>
+        <ng-template #hasChildrenTemplate>
+          <div class="dropdown">
+            <a class="dropdown-toggle" data-bs-toggle="collapse" [attr.href]="'#submenu-' + item.label">
+              <i class="{{ item.icon }}"></i>
+              <span *ngIf="!isCollapsed">{{ item.label }}</span>
+              <i *ngIf="!isCollapsed" class="fas fa-chevron-down dropdown-icon"></i>
+            </a>
+            <ul class="collapse" [id]="'submenu-' + item.label">
+              <li *ngFor="let child of item.children">
+                <a [routerLink]="child.routerLink" routerLinkActive="active">
+                  <i class="{{ child.icon }}"></i>
+                  <span *ngIf="!isCollapsed">{{ child.label }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </ng-template>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer" *ngIf="!isCollapsed">
+    <p>&copy; 2024 El-Eaida</p>
+  </div>
+</aside>

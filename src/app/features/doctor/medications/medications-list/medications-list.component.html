@@ -1,0 +1,151 @@
+<div class="medications-list-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1>قائمة الأدوية</h1>
+      <p>عرض وإدارة جميع الأدوية المتاحة</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-primary">
+        <i class="fas fa-plus"></i>
+        إضافة دواء جديد
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters and Search -->
+  <div class="filters-section">
+    <div class="search-container">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input 
+          type="text" 
+          placeholder="البحث عن دواء..." 
+          [(ngModel)]="searchQuery"
+          (input)="onSearchChange()"
+          class="search-input">
+      </div>
+    </div>
+    
+    <div class="filters-row">
+      <div class="filter-container">
+        <select 
+          [(ngModel)]="selectedCategory" 
+          (change)="onCategoryChange()"
+          class="filter-select">
+          <option value="all">جميع الفئات</option>
+          <option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </option>
+        </select>
+      </div>
+      
+      <div class="filter-container">
+        <select 
+          [(ngModel)]="selectedStatus" 
+          (change)="onStatusChange()"
+          class="filter-select">
+          <option value="all">جميع الحالات</option>
+          <option value="متوفر">متوفر</option>
+          <option value="ناقص">ناقص</option>
+          <option value="غير متوفر">غير متوفر</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Medications Grid -->
+  <div class="medications-grid-container">
+    <div class="grid-header">
+      <h3>قائمة الأدوية ({{ filteredMedications.length }})</h3>
+    </div>
+    
+    <div class="medications-grid">
+      <div *ngFor="let medication of filteredMedications" class="medication-card">
+        <div class="card-header">
+          <div class="medication-name">
+            <h4>{{ medication.name }}</h4>
+            <span class="generic-name">{{ medication.genericName }}</span>
+          </div>
+          <div class="medication-status">
+            <span class="status-badge" [class]="getStatusClass(medication.status)">
+              {{ medication.status }}
+            </span>
+          </div>
+        </div>
+        
+        <div class="card-body">
+          <div class="medication-info">
+            <div class="info-row">
+              <span class="label">الفئة:</span>
+              <span class="value">{{ medication.category }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">الجرعة:</span>
+              <span class="value">{{ medication.dosage }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">الشكل:</span>
+              <span class="value">{{ medication.form }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">الشركة المصنعة:</span>
+              <span class="value">{{ medication.manufacturer }}</span>
+            </div>
+          </div>
+          
+          <div class="stock-info">
+            <div class="stock-amount">
+              <i class="fas fa-boxes"></i>
+              <span class="stock-number" [class]="getStockClass(medication.stock)">
+                {{ medication.stock }} وحدة
+              </span>
+            </div>
+            <div class="price">
+              <i class="fas fa-tag"></i>
+              <span>{{ medication.price }} ريال</span>
+            </div>
+          </div>
+          
+          <div class="medication-description">
+            <p>{{ medication.description }}</p>
+          </div>
+        </div>
+        
+        <div class="card-footer">
+          <div class="medication-actions">
+            <button 
+              class="btn-primary"
+              [disabled]="medication.status === 'غير متوفر'"
+              (click)="prescribeMedication(medication)">
+              <i class="fas fa-prescription-bottle-alt"></i>
+              وصف
+            </button>
+            
+            <button class="btn-icon" title="عرض التفاصيل">
+              <i class="fas fa-eye"></i>
+            </button>
+            
+            <button class="btn-icon" title="تعديل">
+              <i class="fas fa-edit"></i>
+            </button>
+            
+            <button class="btn-icon" title="حذف">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="filteredMedications.length === 0">
+    <div class="empty-icon">
+      <i class="fas fa-pills"></i>
+    </div>
+    <h3>لا توجد نتائج</h3>
+    <p>لم يتم العثور على أدوية تطابق معايير البحث</p>
+    <button class="btn-primary">إضافة دواء جديد</button>
+  </div>
+</div>

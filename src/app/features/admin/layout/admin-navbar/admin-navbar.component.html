@@ -1,0 +1,128 @@
+<nav class="admin-navbar">
+  <div class="navbar-content">
+    <!-- Left Side -->
+    <div class="navbar-left">
+      <button class="sidebar-toggle-btn" (click)="onToggleSidebar()" *ngIf="!isCollapsed">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <div class="search-container">
+        <div class="search-box">
+          <i class="fas fa-search search-icon"></i>
+          <input 
+            type="text" 
+            placeholder="البحث عن مريض، موعد، طبيب..." 
+            [(ngModel)]="searchQuery"
+            class="search-input">
+        </div>
+      </div>
+    </div>
+
+    <!-- Center - Time and Date -->
+    <div class="navbar-center">
+      <div class="datetime-display">
+        <div class="time">{{ getCurrentTime() }}</div>
+        <div class="date">{{ getCurrentDate() }}</div>
+      </div>
+    </div>
+
+    <!-- Right Side -->
+    <div class="navbar-right">
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <button class="action-btn" title="إضافة مريض">
+          <i class="fas fa-user-plus"></i>
+        </button>
+        <button class="action-btn" title="حجز موعد">
+          <i class="fas fa-calendar-plus"></i>
+        </button>
+        <button class="action-btn" title="إضافة طبيب">
+          <i class="fas fa-user-md"></i>
+        </button>
+      </div>
+
+      <!-- Notifications -->
+      <div class="notification-container">
+        <button class="notification-btn" (click)="toggleNotifications()">
+          <i class="fas fa-bell"></i>
+          <span class="notification-badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+        </button>
+        
+        <div class="notification-dropdown" [class.show]="showNotifications">
+          <div class="dropdown-header">
+            <h6>الإشعارات الإدارية</h6>
+            <span class="unread-count">{{ unreadCount }} غير مقروء</span>
+          </div>
+          <div class="notification-list">
+            <div class="notification-item">
+              <div class="notification-icon admin">
+                <i class="fas fa-crown"></i>
+              </div>
+              <div class="notification-content">
+                <div class="notification-title">تقرير يومي</div>
+                <div class="notification-message">تم إنشاء التقرير اليومي بنجاح</div>
+                <div class="notification-time">منذ 5 دقائق</div>
+              </div>
+            </div>
+            <div class="notification-item">
+              <div class="notification-icon warning">
+                <i class="fas fa-exclamation-triangle"></i>
+              </div>
+              <div class="notification-content">
+                <div class="notification-title">تنبيه نظام</div>
+                <div class="notification-message">يحتاج النظام إلى تحديث</div>
+                <div class="notification-time">منذ ساعة</div>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown-footer">
+            <a href="#" class="view-all">عرض جميع الإشعارات</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile -->
+      <div class="profile-container">
+        <button class="profile-btn" (click)="toggleProfile()">
+          <img [src]="currentUser?.avatar" [alt]="currentUser?.firstName" class="profile-avatar">
+          <div class="profile-info" *ngIf="currentUser">
+            <div class="profile-name">{{ currentUser.firstName }} {{ currentUser.lastName }}</div>
+            <div class="profile-role">{{ getRoleLabel(currentUser.role) }}</div>
+          </div>
+          <i class="fas fa-chevron-down profile-arrow"></i>
+        </button>
+        
+        <div class="profile-dropdown" [class.show]="showProfile">
+          <div class="dropdown-header">
+            <div class="profile-details">
+              <img [src]="currentUser?.avatar" [alt]="currentUser?.firstName" class="dropdown-avatar">
+              <div class="user-info">
+                <div class="user-name">{{ currentUser?.firstName }} {{ currentUser?.lastName }}</div>
+                <div class="user-email">{{ currentUser?.email }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-user"></i>
+              <span>الملف الشخصي</span>
+            </a>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-cog"></i>
+              <span>الإعدادات</span>
+            </a>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-chart-bar"></i>
+              <span>التقارير</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item logout">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>تسجيل الخروج</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,212 @@
+<div class="add-patient-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <button class="btn-back" (click)="onCancel()">
+        <i class="fas fa-arrow-right"></i>
+        العودة
+      </button>
+      <div class="header-text">
+        <h1>إضافة مريض جديد</h1>
+        <p>تسجيل مريض جديد في النظام</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Container -->
+  <div class="form-container">
+    <form (ngSubmit)="onSubmit()" #patientForm="ngForm">
+      <div class="form-sections">
+        <!-- Personal Information -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3>المعلومات الشخصية</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="name">الاسم الكامل *</label>
+              <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                [(ngModel)]="patient.name" 
+                required
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="email">البريد الإلكتروني *</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                [(ngModel)]="patient.email" 
+                required
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="phone">رقم الهاتف *</label>
+              <input 
+                type="tel" 
+                id="phone" 
+                name="phone" 
+                [(ngModel)]="patient.phone" 
+                required
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="age">العمر *</label>
+              <input 
+                type="number" 
+                id="age" 
+                name="age" 
+                [(ngModel)]="patient.age" 
+                required
+                min="1" 
+                max="120"
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="gender">الجنس *</label>
+              <select 
+                id="gender" 
+                name="gender" 
+                [(ngModel)]="patient.gender" 
+                required
+                class="form-control">
+                <option value="">اختر الجنس</option>
+                <option value="ذكر">ذكر</option>
+                <option value="أنثى">أنثى</option>
+              </select>
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="address">العنوان</label>
+              <textarea 
+                id="address" 
+                name="address" 
+                [(ngModel)]="patient.address" 
+                rows="3"
+                class="form-control"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Insurance Information -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3>معلومات التأمين</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="insuranceNumber">رقم التأمين</label>
+              <input 
+                type="text" 
+                id="insuranceNumber" 
+                name="insuranceNumber" 
+                [(ngModel)]="patient.insuranceNumber"
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="insuranceProvider">شركة التأمين</label>
+              <input 
+                type="text" 
+                id="insuranceProvider" 
+                name="insuranceProvider" 
+                [(ngModel)]="patient.insuranceProvider"
+                class="form-control">
+            </div>
+          </div>
+        </div>
+
+        <!-- Emergency Contact -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3>جهة الاتصال في حالات الطوارئ</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="emergencyContact">اسم جهة الاتصال</label>
+              <input 
+                type="text" 
+                id="emergencyContact" 
+                name="emergencyContact" 
+                [(ngModel)]="patient.emergencyContact"
+                class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="emergencyPhone">رقم الهاتف</label>
+              <input 
+                type="tel" 
+                id="emergencyPhone" 
+                name="emergencyPhone" 
+                [(ngModel)]="patient.emergencyPhone"
+                class="form-control">
+            </div>
+          </div>
+        </div>
+
+        <!-- Medical Information -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3>المعلومات الطبية</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="medicalHistory">التاريخ المرضي</label>
+              <textarea 
+                id="medicalHistory" 
+                name="medicalHistory" 
+                [(ngModel)]="patient.medicalHistory" 
+                rows="4"
+                placeholder="أدخل الأمراض السابقة والحالات الطبية..."
+                class="form-control"></textarea>
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="allergies">الحساسية</label>
+              <textarea 
+                id="allergies" 
+                name="allergies" 
+                [(ngModel)]="patient.allergies" 
+                rows="3"
+                placeholder="أدخل أنواع الحساسية المعروفة..."
+                class="form-control"></textarea>
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="notes">ملاحظات إضافية</label>
+              <textarea 
+                id="notes" 
+                name="notes" 
+                [(ngModel)]="patient.notes" 
+                rows="3"
+                placeholder="أي ملاحظات إضافية..."
+                class="form-control"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="onCancel()">
+          إلغاء
+        </button>
+        <button 
+          type="submit" 
+          class="btn-primary" 
+          [disabled]="!validateForm() || isSubmitting">
+          <i class="fas fa-save" *ngIf="!isSubmitting"></i>
+          <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
+          {{ isSubmitting ? 'جاري الحفظ...' : 'حفظ المريض' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
