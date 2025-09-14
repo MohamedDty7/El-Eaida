@@ -1,27 +1,139 @@
-# ElEaida
+# 🏥 El-Eaida Clinic Management System
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.20.
+نظام إدارة العيادة الإلكتروني - نظام شامل لإدارة العيادات الطبية مع لوحات تحكم مخصصة لكل نوع من المستخدمين.
 
-## Development server
+## ✨ المميزات الرئيسية
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### 🎯 **نظام الأدوار المتعددة**
+- **👑 Admin Dashboard** - إدارة شاملة للنظام
+- **👨‍⚕️ Doctor Dashboard** - إدارة المواعيد والأدوية
+- **🏥 Receptionist Dashboard** - تسجيل المرضى وحجز المواعيد
+- **👤 Patient Dashboard** - متابعة المواعيد والأدوية
 
-## Code scaffolding
+### 🚀 **التقنيات المستخدمة**
+- **Angular 17** - إطار عمل حديث ومتطور
+- **TypeScript** - لكتابة كود آمن ومنظم
+- **Bootstrap 5** - تصميم متجاوب وجميل
+- **Font Awesome** - أيقونات احترافية
+- **RxJS** - إدارة البيانات التفاعلية
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### 📱 **المميزات التقنية**
+- تصميم متجاوب (Responsive Design)
+- نظام توجيه متقدم (Advanced Routing)
+- حماية الصفحات (Route Guards)
+- إدارة الحالة (State Management)
+- واجهة مستخدم عربية كاملة
 
-## Build
+## 🛠️ التثبيت والتشغيل
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### المتطلبات
+- Node.js (الإصدار 18 أو أحدث)
+- npm أو yarn
 
-## Running unit tests
+### خطوات التثبيت
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. **استنساخ المشروع**
+```bash
+git clone https://github.com/yourusername/El-Eaida-Clinic-Management.git
+cd El-Eaida-Clinic-Management
+```
 
-## Running end-to-end tests
+2. **تثبيت التبعيات**
+```bash
+npm install
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+3. **تشغيل المشروع**
+```bash
+ng serve
+```
 
-## Further help
+4. **فتح المتصفح**
+```
+http://localhost:4200
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 📁 هيكل المشروع
+
+```
+src/
+├── app/
+│   ├── core/                    # الخدمات الأساسية
+│   │   ├── components/         # المكونات الأساسية
+│   │   ├── guards/            # حماية الصفحات
+│   │   ├── models/            # نماذج البيانات
+│   │   └── services/          # الخدمات
+│   ├── features/              # الميزات حسب الأدوار
+│   │   ├── admin/            # لوحة تحكم المدير
+│   │   ├── doctor/           # لوحة تحكم الطبيب
+│   │   ├── receptionist/     # لوحة تحكم الاستقبال
+│   │   └── patient/          # لوحة تحكم المريض
+│   └── shared/               # المكونات المشتركة
+└── styles.css               # الأنماط العامة
+```
+
+## 🎨 لوحات التحكم
+
+### 👑 Admin Dashboard
+- إدارة المرضى والأطباء
+- إحصائيات شاملة
+- إعدادات النظام
+- إدارة المستخدمين
+
+### 👨‍⚕️ Doctor Dashboard
+- إدارة المواعيد
+- وصف الأدوية
+- متابعة المرضى
+- إدارة الأدوية
+
+### 🏥 Receptionist Dashboard
+- تسجيل المرضى الجدد
+- حجز المواعيد
+- طباعة التقارير
+- إدارة المواعيد
+
+### 👤 Patient Dashboard
+- عرض المواعيد
+- متابعة الأدوية
+- إدارة المواعيد الشخصية
+- عرض التاريخ الطبي
+
+## 🔧 التطوير
+
+### إضافة ميزة جديدة
+1. أنشئ مكون جديد في المجلد المناسب
+2. أضف المسار في ملف routes
+3. حدث القائمة في menu.service.ts
+4. أضف الصلاحيات في auth.service.ts
+
+### تخصيص التصميم
+- استخدم Bootstrap classes للتصميم
+- عدّل الألوان في ملفات CSS
+- أضف أيقونات Font Awesome
+
+## 📝 المساهمة
+
+1. Fork المشروع
+2. أنشئ branch للميزة الجديدة
+3. Commit التغييرات
+4. Push إلى Branch
+5. أنشئ Pull Request
+
+## 📄 الترخيص
+
+هذا المشروع مرخص تحت رخصة MIT - راجع ملف [LICENSE](LICENSE) للتفاصيل.
+
+## 👥 الفريق
+
+- **المطور الرئيسي**: [اسمك]
+- **التصميم**: Bootstrap + Custom CSS
+- **الأيقونات**: Font Awesome
+
+## 📞 التواصل
+
+- **البريد الإلكتروني**: your.email@example.com
+- **GitHub**: [yourusername](https://github.com/yourusername)
+
+---
+
+**تم تطوير هذا المشروع بـ ❤️ لخدمة القطاع الصحي العربي**
