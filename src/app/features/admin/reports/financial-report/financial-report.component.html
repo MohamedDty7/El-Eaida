@@ -1,0 +1,92 @@
+<div class="financial-report-container">
+  <div class="header">
+    <h2>التقرير المالي</h2>
+    <p>إحصائيات مالية شاملة للعيادة</p>
+  </div>
+
+  <div class="filters">
+    <div class="filter-group">
+      <label for="period">الفترة الزمنية</label>
+      <select id="period" [(ngModel)]="selectedPeriod" (change)="onPeriodChange()" class="filter-select">
+        <option value="month">الشهر الحالي</option>
+        <option value="quarter">الربع الحالي</option>
+        <option value="year">السنة الحالية</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card revenue">
+      <div class="stat-icon">
+        <i class="fas fa-chart-line"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ totalRevenue | currency:'SAR':'symbol':'1.0-0' }}</h3>
+        <p>إجمالي الإيرادات</p>
+      </div>
+    </div>
+
+    <div class="stat-card expenses">
+      <div class="stat-icon">
+        <i class="fas fa-chart-bar"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ totalExpenses | currency:'SAR':'symbol':'1.0-0' }}</h3>
+        <p>إجمالي المصروفات</p>
+        <span class="stat-rate">{{ getExpenseRatio() }}%</span>
+      </div>
+    </div>
+
+    <div class="stat-card profit">
+      <div class="stat-icon">
+        <i class="fas fa-coins"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ totalProfit | currency:'SAR':'symbol':'1.0-0' }}</h3>
+        <p>صافي الربح</p>
+        <span class="stat-rate">{{ getProfitMargin() }}%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-section">
+    <h3>الإيرادات والمصروفات الشهرية</h3>
+    <div class="chart-container">
+      <div class="chart-placeholder">
+        <i class="fas fa-chart-area"></i>
+        <p>رسم بياني للإيرادات والمصروفات</p>
+        <small>سيتم إضافة الرسم البياني في التحديث القادم</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-section">
+    <h3>تفاصيل البيانات المالية</h3>
+    <div class="table-container">
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th>الشهر</th>
+            <th>الإيرادات</th>
+            <th>المصروفات</th>
+            <th>الربح</th>
+            <th>هامش الربح</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of financialData">
+            <td>{{ data.month }}</td>
+            <td>{{ data.revenue | currency:'SAR':'symbol':'1.0-0' }}</td>
+            <td>{{ data.expenses | currency:'SAR':'symbol':'1.0-0' }}</td>
+            <td>{{ data.profit | currency:'SAR':'symbol':'1.0-0' }}</td>
+            <td>
+              <span class="profit-margin">
+                {{ data.revenue > 0 ? (data.profit / data.revenue * 100).toFixed(1) : 0 }}%
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

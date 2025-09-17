@@ -1,0 +1,85 @@
+<div class="add-medication-container">
+  <div class="header">
+    <h2>إضافة دواء جديد</h2>
+    <p>إضافة دواء جديد إلى قاعدة بيانات العيادة</p>
+  </div>
+
+  <form class="medication-form" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name">اسم الدواء *</label>
+        <input type="text" id="name" [(ngModel)]="medication.name" name="name" class="form-input" required>
+      </div>
+
+      <div class="form-group">
+        <label for="dosage">الجرعة *</label>
+        <input type="text" id="dosage" [(ngModel)]="medication.dosage" name="dosage" class="form-input" placeholder="مثال: 500mg" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="form">شكل الدواء *</label>
+        <select id="form" [(ngModel)]="medication.form" name="form" class="form-select" required>
+          <option value="">اختر شكل الدواء</option>
+          <option value="أقراص">أقراص</option>
+          <option value="كبسولات">كبسولات</option>
+          <option value="شراب">شراب</option>
+          <option value="حقن">حقن</option>
+          <option value="مرهم">مرهم</option>
+          <option value="قطرات">قطرات</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="manufacturer">الشركة المصنعة *</label>
+        <input type="text" id="manufacturer" [(ngModel)]="medication.manufacturer" name="manufacturer" class="form-input" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="price">السعر (ريال سعودي) *</label>
+        <input type="number" id="price" [(ngModel)]="medication.price" name="price" class="form-input" min="0" step="0.01" required>
+      </div>
+
+      <div class="form-group">
+        <label for="stock">الكمية المتوفرة *</label>
+        <input type="number" id="stock" [(ngModel)]="medication.stock" name="stock" class="form-input" min="0" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">الوصف</label>
+      <textarea id="description" [(ngModel)]="medication.description" name="description" class="form-textarea" rows="3" placeholder="وصف الدواء وطريقة الاستخدام..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="sideEffects">الآثار الجانبية</label>
+      <textarea id="sideEffects" [(ngModel)]="medication.sideEffects" name="sideEffects" class="form-textarea" rows="2" placeholder="الآثار الجانبية المحتملة..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="contraindications">موانع الاستخدام</label>
+      <textarea id="contraindications" [(ngModel)]="medication.contraindications" name="contraindications" class="form-textarea" rows="2" placeholder="الحالات التي يمنع فيها استخدام الدواء..."></textarea>
+    </div>
+
+    <div class="error-message" *ngIf="errorMessage">
+      <i class="fas fa-exclamation-circle"></i>
+      {{ errorMessage }}
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        <i class="fas fa-times"></i>
+        إلغاء
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+        <i class="fas fa-save" *ngIf="!isLoading"></i>
+        <i class="fas fa-spinner fa-spin" *ngIf="isLoading"></i>
+        {{ isLoading ? 'جاري الحفظ...' : 'حفظ الدواء' }}
+      </button>
+    </div>
+  </form>
+</div>
+

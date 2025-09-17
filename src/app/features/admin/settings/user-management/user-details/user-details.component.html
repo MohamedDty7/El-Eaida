@@ -1,0 +1,197 @@
+<div class="user-details-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <button class="btn-back" (click)="goBack()">
+        <i class="fas fa-arrow-right"></i>
+        العودة
+      </button>
+      <div class="header-title">
+        <h1>تفاصيل المستخدم</h1>
+        <p>عرض تفاصيل المستخدم الكاملة</p>
+      </div>
+    </div>
+    <div class="header-actions" *ngIf="user">
+      <button class="btn-secondary" (click)="editUser()">
+        <i class="fas fa-edit"></i>
+        تعديل
+      </button>
+      <button class="btn-warning" (click)="toggleUserStatus()">
+        <i class="fas" [class]="user.isActive ? 'fa-ban' : 'fa-check'"></i>
+        {{ user.isActive ? 'إلغاء تفعيل' : 'تفعيل' }}
+      </button>
+      <button class="btn-danger" (click)="deleteUser()">
+        <i class="fas fa-trash"></i>
+        حذف
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="loading-spinner">
+      <i class="fas fa-spinner fa-spin"></i>
+    </div>
+    <p>جاري تحميل تفاصيل المستخدم...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-state" *ngIf="errorMessage && !isLoading">
+    <div class="error-icon">
+      <i class="fas fa-exclamation-triangle"></i>
+    </div>
+    <h3>حدث خطأ</h3>
+    <p>{{ errorMessage }}</p>
+    <button class="btn-primary" (click)="goBack()">العودة</button>
+  </div>
+
+  <!-- User Details -->
+  <div class="user-details-content" *ngIf="user && !isLoading && !errorMessage">
+    <div class="user-profile-card">
+      <div class="profile-header">
+        <div class="user-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="user-basic-info">
+          <h2>{{ user.userName }}</h2>
+          <p class="user-email">{{ user.email }}</p>
+          <div class="user-badges">
+            <span class="role-badge" [class]="getRoleClass(user.role)" *ngIf="user.role && user.role.length > 0">
+              <i class="fas" [class]="getRoleIcon(user.role)"></i>
+              {{ getRoleText(user.role) }}
+            </span>
+            <span class="status-badge" [class]="getStatusClass(user.isActive)">
+              <i class="fas fa-circle"></i>
+              {{ getStatusText(user.isActive) }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="user-info-grid">
+      <!-- Personal Information -->
+      <div class="info-card">
+        <div class="card-header">
+          <h3>
+            <i class="fas fa-user"></i>
+            المعلومات الشخصية
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="info-item">
+            <label>اسم المستخدم:</label>
+            <span>{{ user.userName }}</span>
+          </div>
+          <div class="info-item">
+            <label>البريد الإلكتروني:</label>
+            <span>{{ user.email }}</span>
+          </div>
+          <div class="info-item">
+            <label>رقم الهاتف:</label>
+            <span>{{ user.phone }}</span>
+          </div>
+          <div class="info-item" *ngIf="user.address">
+            <label>العنوان:</label>
+            <span>{{ user.address }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Role Information -->
+      <div class="info-card">
+        <div class="card-header">
+          <h3>
+            <i class="fas fa-user-tag"></i>
+            معلومات الدور
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="info-item">
+            <label>الأدوار:</label>
+            <span class="role-badge" [class]="getRoleClass(user.role)" *ngIf="user.role && user.role.length > 0">
+              <i class="fas" [class]="getRoleIcon(user.role)"></i>
+              {{ getRoleText(user.role) }}
+            </span>
+            <span *ngIf="!user.role || user.role.length === 0" class="no-role">غير محدد</span>
+          </div>
+          <div class="info-item">
+            <label>الحالة:</label>
+            <span class="status-badge" [class]="getStatusClass(user.isActive)">
+              {{ getStatusText(user.isActive) }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Account Information -->
+      <div class="info-card">
+        <div class="card-header">
+          <h3>
+            <i class="fas fa-calendar-alt"></i>
+            معلومات الحساب
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="info-item">
+            <label>تاريخ الإنشاء:</label>
+            <span>{{ formatDate(user.createdAt) }}</span>
+          </div>
+          <div class="info-item" *ngIf="user.lastLogin">
+            <label>آخر دخول:</label>
+            <span>{{ formatDate(user.lastLogin) }}</span>
+          </div>
+          <div class="info-item">
+            <label>دور المستخدم:</label>
+            <div class="user-roles-display" *ngIf="user.role && user.role.length > 0">
+              <span class="role-badge" [class]="getRoleClass([role])" *ngFor="let role of user.role">
+                <i class="fas" [class]="getRoleIcon([role])"></i>
+                {{ getRoleText([role]) }}
+              </span>
+            </div>
+            <span *ngIf="!user.role || user.role.length === 0" class="no-role">غير محدد</span>
+          </div>
+          <div class="info-item">
+            <label>نوع المستخدم:</label>
+            <div class="user-roles-display" *ngIf="user.role && user.role.length > 0">
+              <span class="role-badge" [class]="getRoleClass([role])" *ngFor="let role of user.role">
+                <i class="fas" [class]="getRoleIcon([role])"></i>
+                {{ getRoleText([role]) }}
+              </span>
+            </div>
+            <span *ngIf="!user.role || user.role.length === 0" class="no-role">غير محدد</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activity Information -->
+      <div class="info-card">
+        <div class="card-header">
+          <h3>
+            <i class="fas fa-chart-line"></i>
+            معلومات النشاط
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="info-item">
+            <label>حالة الحساب:</label>
+            <span class="status-badge" [class]="getStatusClass(user.isActive)">
+              {{ getStatusText(user.isActive) }}
+            </span>
+          </div>
+          <div class="info-item">
+            <label>نوع المستخدم:</label>
+            <div class="user-roles-display" *ngIf="user.role && user.role.length > 0">
+              <span class="role-badge" [class]="getRoleClass([role])" *ngFor="let role of user.role">
+                <i class="fas" [class]="getRoleIcon([role])"></i>
+                {{ getRoleText([role]) }}
+              </span>
+            </div>
+            <span *ngIf="!user.role || user.role.length === 0" class="no-role">غير محدد</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

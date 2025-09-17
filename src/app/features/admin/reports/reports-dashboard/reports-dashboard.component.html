@@ -1,0 +1,53 @@
+<div class="reports-dashboard-container">
+  <div class="header">
+    <h2>التقارير والإحصائيات</h2>
+    <p>عرض وتحليل بيانات العيادة الشاملة</p>
+  </div>
+
+  <div class="reports-grid">
+    <div class="report-card" *ngFor="let report of reportCards" (click)="navigateToReport(report.route)">
+      <div class="report-icon" [class]="'icon-' + report.color">
+        <i [class]="report.icon"></i>
+      </div>
+      <div class="report-content">
+        <h3>{{ report.title }}</h3>
+        <p>{{ report.description }}</p>
+        <div class="report-stats">
+          <span class="stat-value">{{ report.stats.value }}</span>
+          <span class="stat-change" [class]="report.stats.changeType">
+            <i class="fas" [class.fa-arrow-up]="report.stats.changeType === 'positive'" 
+                      [class.fa-arrow-down]="report.stats.changeType === 'negative'"
+                      [class.fa-minus]="report.stats.changeType === 'neutral'"></i>
+            {{ report.stats.change }}
+          </span>
+        </div>
+      </div>
+      <div class="report-arrow">
+        <i class="fas fa-chevron-left"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="quick-actions">
+    <h3>إجراءات سريعة</h3>
+    <div class="actions-grid">
+      <button class="action-btn" (click)="navigateToReport('/admin/reports/appointments')">
+        <i class="fas fa-calendar-alt"></i>
+        <span>تقرير المواعيد</span>
+      </button>
+      <button class="action-btn" (click)="navigateToReport('/admin/reports/patients')">
+        <i class="fas fa-users"></i>
+        <span>تقرير المرضى</span>
+      </button>
+      <button class="action-btn" (click)="navigateToReport('/admin/reports/financial')">
+        <i class="fas fa-chart-line"></i>
+        <span>التقرير المالي</span>
+      </button>
+      <button class="action-btn" (click)="navigateToReport('/admin/reports/medications')">
+        <i class="fas fa-pills"></i>
+        <span>تقرير الأدوية</span>
+      </button>
+    </div>
+  </div>
+</div>
+

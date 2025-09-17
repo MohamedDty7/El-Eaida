@@ -1,0 +1,210 @@
+<div class="print-reports-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1>طباعة التقارير</h1>
+      <p>إنشاء وطباعة التقارير المختلفة</p>
+    </div>
+  </div>
+
+  <!-- Report Configuration -->
+  <div class="report-config">
+    <div class="config-section">
+      <h3>إعدادات التقرير</h3>
+      <form (ngSubmit)="generateReport()" #reportForm="ngForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="reportType">نوع التقرير</label>
+            <select 
+              id="reportType" 
+              name="reportType" 
+              [(ngModel)]="selectedReportType"
+              class="form-control">
+              <option *ngFor="let type of reportTypes" [value]="type.value">
+                {{ type.label }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="dateRange">الفترة الزمنية</label>
+            <select 
+              id="dateRange" 
+              name="dateRange" 
+              [(ngModel)]="selectedDateRange"
+              (change)="onDateRangeChange()"
+              class="form-control">
+              <option *ngFor="let range of dateRanges" [value]="range.value">
+                {{ range.label }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group" *ngIf="selectedDateRange === 'custom'">
+            <label for="startDate">تاريخ البداية</label>
+            <input 
+              type="date" 
+              id="startDate" 
+              name="startDate" 
+              [(ngModel)]="startDate"
+              class="form-control">
+          </div>
+
+          <div class="form-group" *ngIf="selectedDateRange === 'custom'">
+            <label for="endDate">تاريخ النهاية</label>
+            <input 
+              type="date" 
+              id="endDate" 
+              name="endDate" 
+              [(ngModel)]="endDate"
+              class="form-control">
+          </div>
+
+          <div class="form-group" *ngIf="selectedReportType === 'appointments'">
+            <label for="doctor">الطبيب</label>
+            <select 
+              id="doctor" 
+              name="doctor" 
+              [(ngModel)]="selectedDoctor"
+              class="form-control">
+              <option *ngFor="let doctor of doctors" [value]="doctor.value">
+                {{ doctor.label }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group" *ngIf="selectedReportType === 'appointments'">
+            <label for="status">حالة الموعد</label>
+            <select 
+              id="status" 
+              name="status" 
+              [(ngModel)]="selectedStatus"
+              class="form-control">
+              <option *ngFor="let status of statuses" [value]="status.value">
+                {{ status.label }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button 
+            type="submit" 
+            class="btn-primary" 
+            [disabled]="!validateForm() || isGenerating">
+            <i class="fas fa-chart-bar" *ngIf="!isGenerating"></i>
+            <i class="fas fa-spinner fa-spin" *ngIf="isGenerating"></i>
+            {{ isGenerating ? 'جاري الإنشاء...' : 'إنشاء التقرير' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Report Results -->
+  <div class="report-results" *ngIf="reportData.length > 0">
+    <div class="results-header">
+      <h3>{{ getReportTitle() }}</h3>
+      <div class="export-actions">
+        <button class="btn-secondary" (click)="printReport()">
+          <i class="fas fa-print"></i>
+          طباعة
+        </button>
+        <button class="btn-secondary" (click)="exportToPDF()">
+          <i class="fas fa-file-pdf"></i>
+          تصدير PDF
+        </button>
+        <button class="btn-secondary" (click)="exportToExcel()">
+          <i class="fas fa-file-excel"></i>
+          تصدير Excel
+        </button>
+      </div>
+    </div>
+
+    <div class="report-content">
+      <!-- Appointments Report -->
+      <div *ngIf="selectedReportType === 'appointments'" class="report-table">
+        <table>
+          <thead>
+            <tr>
+              <th>رقم الموعد</th>
+              <th>اسم المريض</th>
+              <th>الطبيب</th>
+              <th>التاريخ</th>
+              <th>الوقت</th>
+              <th>الحالة</th>
+              <th>النوع</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of reportData">
+              <td>{{ item.id }}</td>
+              <td>{{ item.patientName }}</td>
+              <td>{{ item.doctorName }}</td>
+              <td>{{ item.date }}</td>
+              <td>{{ item.time }}</td>
+              <td>
+                <span class="status-badge" [class]="'status-' + item.status">
+                  {{ item.status }}
+                </span>
+              </td>
+              <td>{{ item.type }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Patients Report -->
+      <div *ngIf="selectedReportType === 'patients'" class="report-table">
+        <table>
+          <thead>
+            <tr>
+              <th>رقم المريض</th>
+              <th>الاسم</th>
+              <th>البريد الإلكتروني</th>
+              <th>رقم الهاتف</th>
+              <th>العمر</th>
+              <th>الجنس</th>
+              <th>الحالة</th>
+              <th>آخر زيارة</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of reportData">
+              <td>{{ item.id }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.email }}</td>
+              <td>{{ item.phone }}</td>
+              <td>{{ item.age }}</td>
+              <td>{{ item.gender }}</td>
+              <td>
+                <span class="status-badge" [class]="'status-' + item.status">
+                  {{ item.status }}
+                </span>
+              </td>
+              <td>{{ item.lastVisit }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="reportData.length === 0 && !isGenerating">
+    <div class="empty-icon">
+      <i class="fas fa-chart-bar"></i>
+    </div>
+    <h3>لم يتم إنشاء تقرير بعد</h3>
+    <p>اختر نوع التقرير والفترة الزمنية ثم اضغط على "إنشاء التقرير"</p>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+

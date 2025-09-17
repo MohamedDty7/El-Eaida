@@ -1,0 +1,87 @@
+<div class="appointments-list-container">
+  <div class="header">
+    <h2>إدارة المواعيد</h2>
+    <p>عرض وإدارة جميع مواعيد العيادة</p>
+    <button class="btn btn-primary" (click)="addNewAppointment()">
+      <i class="fas fa-plus"></i>
+      إضافة موعد جديد
+    </button>
+  </div>
+
+  <div class="filters">
+    <div class="search-box">
+      <input type="text" placeholder="البحث عن موعد..." class="search-input" [(ngModel)]="searchTerm" (input)="onSearchChange()">
+      <i class="fas fa-search search-icon"></i>
+    </div>
+    <div class="filter-options">
+      <select class="filter-select">
+        <option value="">جميع المواعيد</option>
+        <option value="scheduled">مجدول</option>
+        <option value="confirmed">مؤكد</option>
+        <option value="completed">مكتمل</option>
+        <option value="cancelled">ملغي</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="appointments-table">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>المريض</th>
+          <th>الطبيب</th>
+          <th>التاريخ</th>
+          <th>الوقت</th>
+          <th>النوع</th>
+          <th>الحالة</th>
+          <th>الإجراءات</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let appointment of paginatedAppointments">
+          <td>
+            <div class="patient-info">
+              <div class="avatar">
+                <i class="fas fa-user"></i>
+              </div>
+              <div class="details">
+                <div class="name">{{ appointment.patientName }}</div>
+              </div>
+            </div>
+          </td>
+          <td>{{ appointment.doctorName }}</td>
+          <td>{{ appointment.date | date:'short' }}</td>
+          <td>{{ appointment.time }}</td>
+          <td>{{ appointment.type }}</td>
+          <td>
+            <span class="status" [ngClass]="appointment.status">{{ appointment.statusText }}</span>
+          </td>
+          <td>
+            <div class="actions">
+              <button class="btn btn-primary btn-sm" (click)="viewAppointment(appointment)">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="btn btn-warning btn-sm" (click)="editAppointment(appointment)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-danger btn-sm" (click)="cancelAppointment(appointment)">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <button class="btn btn-outline-primary" [disabled]="currentPage === 1" (click)="previousPage()">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+    <span class="page-info">صفحة {{ currentPage }} من {{ totalPages }}</span>
+    <button class="btn btn-outline-primary" [disabled]="currentPage === totalPages" (click)="nextPage()">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+  </div>
+</div>
+

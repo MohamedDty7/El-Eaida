@@ -1,0 +1,76 @@
+<div class="add-appointment-container">
+  <div class="header">
+    <h2>إضافة موعد جديد</h2>
+    <p>حجز موعد جديد للمريض</p>
+  </div>
+
+  <form class="appointment-form" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="patient">المريض *</label>
+        <select id="patient" [(ngModel)]="appointment.patientId" name="patientId" class="form-select" required>
+          <option value="">اختر المريض</option>
+          <option *ngFor="let patient of patients" [value]="patient.id">
+            {{ patient.name }} - {{ patient.phone }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="doctor">الطبيب *</label>
+        <select id="doctor" [(ngModel)]="appointment.doctorId" name="doctorId" class="form-select" required>
+          <option value="">اختر الطبيب</option>
+          <option *ngFor="let doctor of doctors" [value]="doctor.id">
+            {{ doctor.name }} - {{ doctor.specialty }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="date">التاريخ *</label>
+        <input type="date" id="date" [(ngModel)]="appointment.date" name="date" class="form-input" required>
+      </div>
+
+      <div class="form-group">
+        <label for="time">الوقت *</label>
+        <input type="time" id="time" [(ngModel)]="appointment.time" name="time" class="form-input" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="type">نوع الموعد *</label>
+      <select id="type" [(ngModel)]="appointment.type" name="type" class="form-select" required>
+        <option value="">اختر نوع الموعد</option>
+        <option value="فحص دوري">فحص دوري</option>
+        <option value="استشارة">استشارة</option>
+        <option value="متابعة">متابعة</option>
+        <option value="طوارئ">طوارئ</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="notes">ملاحظات</label>
+      <textarea id="notes" [(ngModel)]="appointment.notes" name="notes" class="form-textarea" rows="4" placeholder="أي ملاحظات إضافية..."></textarea>
+    </div>
+
+    <div class="error-message" *ngIf="errorMessage">
+      <i class="fas fa-exclamation-circle"></i>
+      {{ errorMessage }}
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        <i class="fas fa-times"></i>
+        إلغاء
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+        <i class="fas fa-save" *ngIf="!isLoading"></i>
+        <i class="fas fa-spinner fa-spin" *ngIf="isLoading"></i>
+        {{ isLoading ? 'جاري الحفظ...' : 'حفظ الموعد' }}
+      </button>
+    </div>
+  </form>
+</div>
+

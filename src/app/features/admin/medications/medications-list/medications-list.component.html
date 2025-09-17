@@ -1,0 +1,88 @@
+<div class="medications-list-container">
+  <div class="header">
+    <h2>إدارة الأدوية</h2>
+    <p>عرض وإدارة جميع أدوية العيادة</p>
+    <button class="btn btn-primary" (click)="addNewMedication()">
+      <i class="fas fa-plus"></i>
+      إضافة دواء جديد
+    </button>
+  </div>
+
+  <div class="filters">
+    <div class="search-box">
+      <input type="text" placeholder="البحث عن دواء..." class="search-input" [(ngModel)]="searchTerm" (input)="onSearchChange()">
+      <i class="fas fa-search search-icon"></i>
+    </div>
+    <div class="filter-options">
+      <select class="filter-select">
+        <option value="">جميع الأدوية</option>
+        <option value="available">متوفر</option>
+        <option value="out_of_stock">نفد المخزون</option>
+        <option value="discontinued">متوقف</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="medications-table">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>اسم الدواء</th>
+          <th>الجرعة</th>
+          <th>الشكل</th>
+          <th>الشركة المصنعة</th>
+          <th>السعر</th>
+          <th>المخزون</th>
+          <th>الحالة</th>
+          <th>الإجراءات</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let medication of paginatedMedications">
+          <td>
+            <div class="medication-info">
+              <div class="medication-icon">
+                <i class="fas fa-pills"></i>
+              </div>
+              <div class="details">
+                <div class="name">{{ medication.name }}</div>
+              </div>
+            </div>
+          </td>
+          <td>{{ medication.dosage }}</td>
+          <td>{{ medication.form }}</td>
+          <td>{{ medication.manufacturer }}</td>
+          <td>{{ medication.price | currency:'SAR':'symbol':'1.2-2' }}</td>
+          <td>{{ medication.stock }}</td>
+          <td>
+            <span class="status" [ngClass]="medication.status">{{ medication.statusText }}</span>
+          </td>
+          <td>
+            <div class="actions">
+              <button class="btn btn-primary btn-sm" (click)="viewMedication(medication)">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="btn btn-warning btn-sm" (click)="editMedication(medication)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-danger btn-sm" (click)="deleteMedication(medication)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <button class="btn btn-outline-primary" [disabled]="currentPage === 1" (click)="previousPage()">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+    <span class="page-info">صفحة {{ currentPage }} من {{ totalPages }}</span>
+    <button class="btn btn-outline-primary" [disabled]="currentPage === totalPages" (click)="nextPage()">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+  </div>
+</div>
+

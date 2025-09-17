@@ -1,0 +1,139 @@
+<div class="search-patient-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1>البحث عن مريض</h1>
+      <p>البحث عن المرضى باستخدام معايير مختلفة</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-primary" routerLink="/receptionist/patients/add">
+        <i class="fas fa-user-plus"></i>
+        إضافة مريض جديد
+      </button>
+    </div>
+  </div>
+
+  <!-- Search Form -->
+  <div class="search-form">
+    <div class="search-container">
+      <div class="search-input-group">
+        <select [(ngModel)]="searchType" class="search-type-select">
+          <option *ngFor="let type of searchTypes" [value]="type.value">
+            {{ type.label }}
+          </option>
+        </select>
+        <input 
+          type="text" 
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()"
+          placeholder="أدخل معايير البحث..."
+          class="search-input">
+        <button class="btn-primary" (click)="onSearch()" [disabled]="isLoading">
+          <i class="fas fa-search" *ngIf="!isLoading"></i>
+          <i class="fas fa-spinner fa-spin" *ngIf="isLoading"></i>
+          {{ isLoading ? 'جاري البحث...' : 'بحث' }}
+        </button>
+        <button class="btn-secondary" (click)="onClearSearch()">
+          <i class="fas fa-times"></i>
+          مسح
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Results -->
+  <div class="search-results">
+    <div class="results-header">
+      <h3>نتائج البحث ({{ searchResults.length }})</h3>
+    </div>
+    
+    <div class="results-list" *ngIf="searchResults.length > 0">
+      <div class="patient-card" *ngFor="let patient of searchResults">
+        <div class="card-header">
+          <div class="patient-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="patient-status">
+            <span class="status-badge" [class]="getStatusClass(patient.status)">
+              {{ patient.status }}
+            </span>
+          </div>
+        </div>
+        
+        <div class="card-body">
+          <h4 class="patient-name">{{ patient.name }}</h4>
+          <div class="patient-gender">
+            <i class="fas" [class]="getGenderIcon(patient.gender)"></i>
+            <span>{{ patient.gender }}</span>
+          </div>
+          
+          <div class="patient-info">
+            <div class="info-item">
+              <i class="fas fa-envelope"></i>
+              <span>{{ patient.email }}</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-phone"></i>
+              <span>{{ patient.phone }}</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-birthday-cake"></i>
+              <span>{{ patient.age }} سنة</span>
+            </div>
+          </div>
+          
+          <div class="visit-info">
+            <div class="visit-item">
+              <span class="label">آخر زيارة:</span>
+              <span class="value">{{ patient.lastVisit }}</span>
+            </div>
+            <div class="visit-item">
+              <span class="label">إجمالي الزيارات:</span>
+              <span class="value">{{ patient.totalVisits }}</span>
+            </div>
+            <div class="visit-item" *ngIf="patient.nextAppointment">
+              <span class="label">الموعد القادم:</span>
+              <span class="value next-appointment">{{ patient.nextAppointment }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card-footer">
+          <div class="patient-actions">
+            <button class="btn-primary" (click)="addAppointment(patient)">
+              <i class="fas fa-calendar-plus"></i>
+              حجز موعد
+            </button>
+            
+            <button class="btn-icon" title="عرض التفاصيل" (click)="viewPatient(patient)">
+              <i class="fas fa-eye"></i>
+            </button>
+            
+            <button class="btn-icon" title="تعديل" (click)="editPatient(patient)">
+              <i class="fas fa-edit"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="searchResults.length === 0 && searchQuery">
+      <div class="empty-icon">
+        <i class="fas fa-search"></i>
+      </div>
+      <h3>لا توجد نتائج</h3>
+      <p>لم يتم العثور على مرضى يطابقون معايير البحث</p>
+      <button class="btn-primary" routerLink="/receptionist/patients/add">إضافة مريض جديد</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,190 @@
+<div class="add-user-modal">
+  <div class="modal-overlay" (click)="onCancel()"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>إضافة مستخدم جديد</h2>
+      <button class="close-btn" (click)="onCancel()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Success Message -->
+      <div class="success-message" *ngIf="successMessage">
+        <i class="fas fa-check-circle"></i>
+        <p>{{ successMessage }}</p>
+      </div>
+
+      <!-- Error Message -->
+      <div class="error-message" *ngIf="errorMessage">
+        <i class="fas fa-exclamation-circle"></i>
+        <p>{{ errorMessage }}</p>
+      </div>
+
+      <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="username">اسم المستخدم *</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              [(ngModel)]="userDto.userName"
+              class="form-input"
+              placeholder="أدخل اسم المستخدم"
+              required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">البريد الإلكتروني *</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              [(ngModel)]="userDto.email"
+              class="form-input"
+              placeholder="أدخل البريد الإلكتروني"
+              required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="password">كلمة المرور *</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              [(ngModel)]="password"
+              class="form-input"
+              placeholder="أدخل كلمة المرور"
+              required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">رقم الهاتف *</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              [(ngModel)]="userDto.phone"
+              class="form-input"
+              placeholder="أدخل رقم الهاتف"
+              required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="address">العنوان</label>
+          <textarea
+            id="address"
+            name="address"
+            [(ngModel)]="userDto.address"
+            class="form-textarea"
+            placeholder="أدخل العنوان (اختياري)"
+            rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>الأدوار *</label>
+          <div class="roles-container">
+            <div class="role-checkbox" *ngFor="let role of availableRoles">
+              <input
+                type="checkbox"
+                [id]="'role-' + role.value"
+                [checked]="isRoleSelected(role.value)"
+                (change)="onRoleChange(role.value, $event)"
+                class="role-input">
+              <label [for]="'role-' + role.value" class="role-label">
+                <span class="checkbox-custom"></span>
+                <i class="fas" [class]="getRoleIcon([role.value])"></i>
+                {{ role.label }}
+              </label>
+            </div>
+          </div>
+          <div class="selected-roles" *ngIf="userDto.role.length > 0">
+            <span class="selected-role" *ngFor="let role of userDto.role">
+              <i class="fas" [class]="getRoleIcon([role])"></i>
+              {{ getRoleText([role]) }}
+            </span>
+          </div>
+        </div>
+      </form>
+
+      <!-- عرض قائمة المستخدمين -->
+      <div class="users-section" *ngIf="showUsersList">
+        <div class="section-header">
+          <h3>قائمة المستخدمين</h3>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading-state" *ngIf="isLoadingUsers">
+          <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+          </div>
+          <p>جاري تحميل المستخدمين...</p>
+        </div>
+
+        <!-- Error State -->
+        <div class="error-state" *ngIf="usersErrorMessage && !isLoadingUsers">
+          <div class="error-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <p>{{ usersErrorMessage }}</p>
+        </div>
+
+        <!-- Users List -->
+        <div class="users-list" *ngIf="!isLoadingUsers && !usersErrorMessage && allUsers.length > 0">
+          <div class="user-item" *ngFor="let user of filteredUsers">
+            <div class="user-info">
+              <div class="user-avatar">
+                <i class="fas fa-user"></i>
+              </div>
+              <div class="user-details">
+                <h4>{{ user.userName }}</h4>
+                <p>{{ user.email }}</p>
+                <div class="user-role-info">
+                  <div class="user-roles-display" *ngIf="user.role && user.role.length > 0">
+                    <span class="role-badge" [class]="getRoleClass([role])" *ngFor="let role of user.role">
+                      <i class="fas" [class]="getRoleIcon([role])"></i>
+                      {{ getRoleText([role]) }}
+                    </span>
+                  </div>
+                  <span *ngIf="!user.role || user.role.length === 0" class="no-role">غير محدد</span>
+                </div>
+              </div>
+            </div>
+            <div class="user-status" [class]="getStatusClass(user.isActive)">
+              {{ getStatusText(user.isActive) }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" *ngIf="!isLoadingUsers && !usersErrorMessage && allUsers.length === 0">
+          <div class="empty-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <h3>لا توجد مستخدمين</h3>
+          <p>لم يتم العثور على أي مستخدمين في النظام</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn-info" (click)="toggleUsersList()" [disabled]="isLoading">
+        <i class="fas fa-users"></i>
+        {{ showUsersList ? 'إخفاء المستخدمين' : 'عرض المستخدمين' }}
+      </button>
+      <button type="button" class="btn-secondary" (click)="onCancel()" [disabled]="isLoading">
+        إلغاء
+      </button>
+      <button type="button" class="btn-primary" (click)="onSubmit()" [disabled]="isLoading">
+        <i class="fas fa-spinner fa-spin" *ngIf="isLoading"></i>
+        <i class="fas fa-save" *ngIf="!isLoading"></i>
+        {{ isLoading ? 'جاري الحفظ...' : 'حفظ' }}
+      </button>
+    </div>
+  </div>
+</div>

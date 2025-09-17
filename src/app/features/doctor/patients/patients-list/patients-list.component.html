@@ -1,0 +1,78 @@
+<div class="patients-list-container">
+  <div class="header">
+    <h2>قائمة المرضى</h2>
+    <p>عرض وإدارة قائمة المرضى</p>
+  </div>
+
+  <div class="filters">
+    <div class="search-box">
+      <input type="text" placeholder="البحث عن مريض..." class="search-input" [(ngModel)]="searchTerm" (input)="onSearchChange()">
+      <i class="fas fa-search search-icon"></i>
+    </div>
+    <div class="filter-options">
+      <select class="filter-select">
+        <option value="">جميع المرضى</option>
+        <option value="active">نشط</option>
+        <option value="inactive">غير نشط</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="patients-table">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>الاسم</th>
+          <th>العمر</th>
+          <th>الجنس</th>
+          <th>الهاتف</th>
+          <th>آخر زيارة</th>
+          <th>الحالة</th>
+          <th>الإجراءات</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let patient of paginatedPatients">
+          <td>
+            <div class="patient-info">
+              <div class="avatar">
+                <i class="fas fa-user"></i>
+              </div>
+              <div class="details">
+                <div class="name">{{ patient.firstName }} {{ patient.lastName }}</div>
+                <div class="email">{{ patient.email }}</div>
+              </div>
+            </div>
+          </td>
+          <td>{{ patient.age }}</td>
+          <td>{{ patient.gender }}</td>
+          <td>{{ patient.phone }}</td>
+          <td>{{ patient.lastVisit | date:'short' }}</td>
+          <td>
+            <span class="status" [ngClass]="patient.status">{{ patient.statusText }}</span>
+          </td>
+          <td>
+            <div class="actions">
+              <button class="btn btn-primary btn-sm" (click)="viewPatient(patient)">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="btn btn-success btn-sm" (click)="addAppointment(patient)">
+                <i class="fas fa-calendar-plus"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <button class="btn btn-outline-primary" [disabled]="currentPage === 1" (click)="previousPage()">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+    <span class="page-info">صفحة {{ currentPage }} من {{ totalPages }}</span>
+    <button class="btn btn-outline-primary" [disabled]="currentPage === totalPages" (click)="nextPage()">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+  </div>
+</div>
